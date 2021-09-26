@@ -1,12 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './styles/index.css';
+import List from './components/List';
+import New from './components/New';
+import Home from './components/Home';
+import Login from './components/Login';
+import AppBar from './containers/appbar';
 import reportWebVitals from './reportWebVitals';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
+import store from './reducers/store'
+import { Provider } from 'react-redux'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+        <Router>
+            <AppBar />
+            <div>
+                <Switch>
+                    <Route path="/new">
+                        <New />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/">
+                        <List />
+                    </Route>
+
+
+                </Switch>
+            </div>
+        </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
