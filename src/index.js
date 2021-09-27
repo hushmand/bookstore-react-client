@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import List from './components/List';
 import New from './components/New';
 import Home from './components/Home';
 import Login from './components/Login';
+import Info from './components/Info';
 import AppBar from './containers/appbar';
 import reportWebVitals from './reportWebVitals';
 
@@ -12,7 +12,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
 
 import store from './reducers/store'
@@ -25,16 +24,22 @@ ReactDOM.render(
             <AppBar />
             <div>
                 <Switch>
+
+                    <Route path="/info/:bookId">
+                        <Info />
+                    </Route>
+
                     <Route path="/new">
                         <New />
                     </Route>
+
                     <Route path="/login">
                         <Login />
                     </Route>
-                    <Route path="/">
-                        <List />
-                    </Route>
 
+                    <Route path="/">
+                        <Home />
+                    </Route>
 
                 </Switch>
             </div>

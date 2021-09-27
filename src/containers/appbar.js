@@ -38,6 +38,9 @@ export default function ButtonAppBar() {
                     </Typography>
 
                     <div>
+
+                        <Button color="inherit"><Link to="/" style={{ textDecoration: 'none',color: 'white' }}>Home</Link></Button>
+
                         {isLoggedIn ? <Button color="inherit"><Link to="/new" style={{ textDecoration: 'none',color: 'white' }}>New</Link></Button>: null }
 
                         {!isLoggedIn ?
