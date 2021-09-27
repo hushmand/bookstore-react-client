@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
+import Edit from './components/Edit';
 import New from './components/New';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -39,6 +40,10 @@ ReactDOM.render(
 
                     <Route path="/">
                         <Home />
+                    </Route>
+
+                    <Route path="/edit">
+                        <Edit />
                     </Route>
 
                 </Switch>

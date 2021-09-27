@@ -7,14 +7,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { addAll, clearAll } from '../reducers/books'
+import { addAll, clearAll, removeAt } from '../reducers/books'
 // import {addToken, clearToken} from "../reducers/auth";
 
 import {
+    useHistory,
     useParams
 } from "react-router-dom";
+import axios from "axios";
+import {addToken} from "../reducers/auth";
+
+const baseURL = "http://localhost:5000/books";
 
 export default function Info() {
+
+    const history = useHistory()
 
     const token = useSelector(state => state.auth.value)
 
@@ -30,6 +37,25 @@ export default function Info() {
 
     let book = booksList[bookId]
     console.log(book)
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(removeAt(bookId))
+        history.replace("/")
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+
+        axios.delete(baseURL + "/" + book._id,{
+            headers: headers
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(()=>{
+            console.log("error")
+        });
+    };
 
     return (
         <Card sx={{ maxWidth: 345 , mt: 6, ml: "40%"}}>
@@ -49,7 +75,7 @@ export default function Info() {
             </CardContent>
             <CardActions>
                 <Button size="small" disabled={!isLoggedIn} >Edit</Button>
-                <Button size="small" disabled={!isLoggedIn}>Delete</Button>
+                <Button size="small" disabled={!isLoggedIn} onClick={handleSubmit} >Delete</Button>
             </CardActions>
         </Card>
     );

@@ -20,7 +20,7 @@ import {
 const theme = createTheme();
 const baseURL = "http://localhost:5000/books";
 
-export default function New() {
+export default function Edit() {
 
     const history = useHistory()
 

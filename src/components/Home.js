@@ -10,15 +10,14 @@ import { useHistory } from "react-router-dom";
 
 import { useSelector, useDispatch } from 'react-redux'
 import { addAll, clearAll } from '../reducers/books'
-import {addToken, clearToken} from "../reducers/auth";
 
 const baseURL = "http://localhost:5000/books?limit=10&page=";
+let page = 0;
+let hasMore = true;
 
 export default function Home() {
     const history = useHistory()
 
-    let page = 0;
-    let hasMore = true;
 
     const booksList = useSelector(state => state.books.value)
     const dispatch = useDispatch()
@@ -42,7 +41,7 @@ export default function Home() {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             if ((window.innerHeight + currentScrollY) >= document.body.offsetHeight + 15) {
-                page++;
+                page += 1
                 if(hasMore) fetchData()
             }
         };
@@ -69,7 +68,7 @@ export default function Home() {
                             loading="lazy"
                         />
                         <ImageListItemBar
-                            title={item.name + index}
+                            title={item.name}
                             subtitle={item.author}
                             actionIcon={
                                 <IconButton
