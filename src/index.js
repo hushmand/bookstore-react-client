@@ -26,6 +26,10 @@ ReactDOM.render(
             <div>
                 <Switch>
 
+                    <Route path="/edit/:bookId">
+                        <Edit />
+                    </Route>
+
                     <Route path="/info/:bookId">
                         <Info />
                     </Route>
@@ -40,10 +44,6 @@ ReactDOM.render(
 
                     <Route path="/">
                         <Home />
-                    </Route>
-
-                    <Route path="/edit">
-                        <Edit />
                     </Route>
 
                 </Switch>

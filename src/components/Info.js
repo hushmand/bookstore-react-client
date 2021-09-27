@@ -38,7 +38,7 @@ export default function Info() {
     let book = booksList[bookId]
     console.log(book)
 
-    const handleSubmit = (event) => {
+    const handleDeleteSubmit = (event) => {
         event.preventDefault();
         dispatch(removeAt(bookId))
         history.replace("/")
@@ -55,6 +55,11 @@ export default function Info() {
         }).catch(()=>{
             console.log("error")
         });
+    };
+
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        history.replace("/edit/" + bookId)
     };
 
     return (
@@ -74,8 +79,8 @@ export default function Info() {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" disabled={!isLoggedIn} >Edit</Button>
-                <Button size="small" disabled={!isLoggedIn} onClick={handleSubmit} >Delete</Button>
+                <Button size="small" disabled={!isLoggedIn} onClick={handleEditSubmit} >Edit</Button>
+                <Button size="small" disabled={!isLoggedIn} onClick={handleDeleteSubmit} >Delete</Button>
             </CardActions>
         </Card>
     );

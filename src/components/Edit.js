@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 
 import { useSelector, useDispatch } from 'react-redux'
-import {addAll, add, removeAt} from '../reducers/books'
+import {addAll, add, removeAt,updateAt} from '../reducers/books'
 import {addToken, clearToken} from "../reducers/auth";
 
 import {
@@ -22,11 +22,19 @@ const baseURL = "http://localhost:5000/books";
 
 export default function Edit() {
 
+
     const history = useHistory()
 
     const token = useSelector(state => state.auth.value)
     const booksList = useSelector(state => state.books.value)
     const dispatch = useDispatch()
+
+    let { bookId } = useParams();
+    let book = booksList[bookId]
+
+    const [state, setState] = React.useState({ name: book.name,author: book.author});
+
+    // setState({...state, name: book.name})
 
 
     const handleSubmit = (event) => {
@@ -35,11 +43,8 @@ export default function Edit() {
 
         const name = data.get('name')
         const author = data.get('author')
-        const image = data.get('image')
 
-
-
-        if(!name && !author && !image) {
+        if(!name && !author) {
             return;
         }
 
@@ -49,23 +54,19 @@ export default function Edit() {
         }
 
         const formData = new FormData();
-        formData.append('image',image)
         formData.append('name',name)
         formData.append('author',author)
-        formData.append('publisher',author)
-        formData.append('price',1)
-        formData.append('pages',10)
-        formData.append('version','1')
-        formData.append('publishDate','1399/12/03')
 
-        axios.post(baseURL ,formData,{
+        axios.patch(baseURL + "/" + book._id ,formData,{
             headers: headers
         }).then((response) => {
             console.log(response.data)
-            dispatch(add({_id:name+author,name:name,author:author,image:'image'}))
-            history.replace("/")
-        }).catch(()=>{
-            console.log("error")
+
+            let newBook = {name: state.name,author:state.author,image:book.image,_id:book._id}
+            dispatch(updateAt({index:bookId,book:newBook}))
+            history.replace("/info/"+bookId)
+        }).catch((e)=>{
+            console.log("error " + e)
         });
 
     };
@@ -83,7 +84,7 @@ export default function Edit() {
                     }}
                 >
                     <Typography component="h1" variant="h5">
-                        New Book
+                        Edit Book
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -95,6 +96,8 @@ export default function Edit() {
                             name="name"
                             autoComplete="name"
                             autoFocus
+                            value={state.name}
+                            onChange={(e) => {setState({...state, name: e.target.value})}}
                         />
                         <TextField
                             margin="normal"
@@ -102,22 +105,11 @@ export default function Edit() {
                             fullWidth
                             name="author"
                             label="Author"
-                            type="author"
                             id="author"
                             autoComplete="author"
+                            value={state.author}
+                            onChange={(e) => {setState({...state, author: e.target.value})}}
                         />
-
-                        <Button
-                            variant="contained"
-                            component="label"
-                        >
-                            Select book image
-                            <input
-                                name="image"
-                                type="file"
-                                id="image"
-                            />
-                        </Button>
 
                         <Button
                             type="submit"
@@ -125,7 +117,7 @@ export default function Edit() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 ,p:1}}
                         >
-                            Submit
+                            Update
                         </Button>
 
                     </Box>
