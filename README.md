@@ -1,3 +1,5 @@
+[![GitHub](https://img.shields.io/github/license/illchi/js-client)](https://github.com/illchi/js-client/blob/master/LICENSE)
+
 # Bookstore react client
 
 react, redux, material-ui
